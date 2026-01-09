@@ -1,0 +1,60 @@
+<div class="container">
+  <nav class="navbar">
+    <h1>Video Downloader</h1>
+    <a routerLink="/viewer" class="nav-link">YouTube Viewer</a>
+  </nav>
+
+  <div class="card">
+    <h2>Download Video</h2>
+    <form (ngSubmit)="startDownload()" class="download-form">
+      <div class="form-group">
+        <label for="url">Video URL</label>
+        <input
+          type="text"
+          id="url"
+          [(ngModel)]="url"
+          name="url"
+          placeholder="https://example.com/video.mp4"
+          class="input"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="format">Format</label>
+        <select id="format" [(ngModel)]="format" name="format" class="select">
+          <option value="mp4">MP4 (Video)</option>
+          <option value="webm">WebM (Video)</option>
+          <option value="mp3">MP3 (Audio)</option>
+          <option value="wav">WAV (Audio)</option>
+        </select>
+      </div>
+
+      <button type="submit" class="btn-primary">Download</button>
+    </form>
+  </div>
+
+  <div class="card" *ngIf="downloads.length > 0">
+    <h2>Download History</h2>
+    <div class="downloads-list">
+      <div *ngFor="let download of downloads" class="download-item">
+        <div class="download-header">
+          <div class="download-info">
+            <div class="file-name">{{ download.fileName }}</div>
+            <div class="file-url">{{ download.url }}</div>
+          </div>
+          <span [class]="getStatusClass(download.status)" class="status-badge">
+            {{ download.status }}
+          </span>
+        </div>
+
+          <mat-progress-bar
+            mode="determinate"
+            [value]="download.progress">
+          </mat-progress-bar>
+        
+        <div class="progress-text">{{ download.progress | number: '1.0-0' }}%</div>
+      </div>
+    </div>
+  </div>
+</div>

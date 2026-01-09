@@ -1,0 +1,87 @@
+<div class="container">
+  <nav class="navbar">
+    <h1>YouTube Viewer</h1>
+    <a routerLink="/downloader" class="nav-link">Video Downloader</a>
+  </nav>
+
+  <div class="card">
+    <h2>Watch YouTube Video</h2>
+    <form (ngSubmit)="loadVideo()" class="viewer-form">
+      <div class="form-group">
+        <label for="videoUrl">YouTube URL</label>
+        <input
+          type="text"
+          id="videoUrl"
+          [(ngModel)]="videoUrl"
+          name="videoUrl"
+          placeholder="https://www.youtube.com/watch?v=..."
+          class="input"
+          required
+        />
+      </div>
+
+      <div class="error-message" *ngIf="errorMessage">
+        {{ errorMessage }}
+      </div>
+
+      <button type="submit" class="btn-primary">Load Video</button>
+    </form>
+
+    <div class="info-text">
+      Supports: youtube.com/watch?v=..., youtu.be/..., or video ID
+    </div>
+  </div>
+
+  <div class="card video-player-card" *ngIf="currentVideo">
+    <div class="video-container">
+      <iframe
+        [src]="currentVideo.embedUrl"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen
+      ></iframe>
+    </div>
+    <div class="video-info">
+      <div class="video-id">Video ID: {{ currentVideo.id }}</div>
+      <a [href]="currentVideo.url" target="_blank" class="video-link">
+        Open in YouTube
+      </a>
+    </div>
+  </div>
+
+  <div class="card" *ngIf="videoHistory.length > 0">
+    <div class="history-header">
+      <h2>Watch History</h2>
+      <button class="btn-clear" (click)="clearHistory()">Clear History</button>
+    </div>
+
+    <div class="history-grid">
+      <div
+        *ngFor="let video of videoHistory"
+        class="history-item"
+        (click)="loadFromHistory(video)"
+      >
+        <div class="thumbnail-container">
+          <img
+            [src]="getThumbnail(video.id)"
+            [alt]="video.title"
+            class="thumbnail"
+          />
+          <div class="play-overlay">
+            <svg
+              class="play-icon"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+            >
+              <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" />
+            </svg>
+          </div>
+        </div>
+        <div class="history-info">
+          <div class="history-title">{{ video.id }}</div>
+          <div class="history-date">{{ video.addedAt | date: 'short' }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
