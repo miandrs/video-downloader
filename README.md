@@ -20,9 +20,7 @@
    npm install
    ```
 4. Before Running the front application run the backend first:
-   ```bash
-   https://github.com/miandrs/video-downloader-backend.git
-   ```
+   [Backend Repository](https://github.com/miandrs/video-downloader-backend.git)
 
 4. Start the server:
    ```bash
